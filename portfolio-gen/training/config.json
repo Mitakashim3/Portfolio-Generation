@@ -1,0 +1,26 @@
+{
+  "theme": "minimal",
+  "colorPalette": [
+    "bg-gray-900",
+    "text-white",
+    "accent-blue-500"
+  ],
+  "layout": "single",
+  "components": [
+    "navbar",
+    "hero",
+    "projects",
+    "contact",
+    "awards",
+    "blog",
+    "testimonials"
+  ],
+  "animations": [
+    "slide-up",
+    "typewriter",
+    "progress-bar",
+    "staggered-reveal"
+  ],
+  "typography": "font-sans",
+  "published": false
+}
