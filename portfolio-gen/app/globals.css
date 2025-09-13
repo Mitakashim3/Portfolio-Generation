@@ -1,0 +1,225 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Green Liquid Design System - Optimized Contrast */
+  --background: 120 20% 98%;
+  --foreground: 150 25% 8%;
+  --card: 120 50% 97%;
+  --card-foreground: 150 25% 10%;
+  --popover: 120 50% 98%;
+  --popover-foreground: 150 25% 8%;
+  --primary: 142 76% 36%;
+  --primary-foreground: 120 100% 98%;
+  --secondary: 134 40% 88%;
+  --secondary-foreground: 150 30% 12%;
+  --muted: 130 30% 92%;
+  --muted-foreground: 140 25% 42%;
+  --accent: 138 60% 45%;
+  --accent-foreground: 120 100% 98%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 130 25% 82%;
+  --input: 130 25% 88%;
+  --ring: 142 76% 36%;
+  --radius: 1rem;
+  
+  /* Sidebar specific colors with optimized contrast */
+  --sidebar: 125 30% 97%;
+  --sidebar-foreground: 150 30% 12%;
+  --sidebar-primary: 142 76% 36%;
+  --sidebar-primary-foreground: 120 100% 98%;
+  --sidebar-accent: 134 40% 92%;
+  --sidebar-accent-foreground: 150 25% 15%;
+  --sidebar-border: 130 25% 82%;
+  --sidebar-ring: 142 76% 36%;
+  
+  /* Liquid effect gradients with better contrast */
+  --gradient-primary: linear-gradient(135deg, hsl(142 76% 36%) 0%, hsl(138 60% 45%) 100%);
+  --gradient-secondary: linear-gradient(135deg, hsl(134 40% 90%) 0%, hsl(130 30% 94%) 100%);
+  --gradient-glass: linear-gradient(135deg, hsla(120, 50%, 97%, 0.9) 0%, hsla(130, 30%, 94%, 0.8) 100%);
+}
+
+.dark {
+  --background: 150 25% 5%;
+  --foreground: 120 50% 96%;
+  --card: 150 25% 7%;
+  --card-foreground: 120 50% 94%;
+  --popover: 150 25% 7%;
+  --popover-foreground: 120 50% 96%;
+  --primary: 142 86% 65%;
+  --primary-foreground: 150 25% 5%;
+  --secondary: 150 25% 10%;
+  --secondary-foreground: 120 50% 88%;
+  --muted: 150 25% 10%;
+  --muted-foreground: 130 30% 65%;
+  --accent: 138 70% 70%;
+  --accent-foreground: 150 25% 5%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 150 25% 15%;
+  --input: 150 25% 12%;
+  --ring: 142 86% 65%;
+  
+  --sidebar: 150 25% 6%;
+  --sidebar-foreground: 120 50% 90%;
+  --sidebar-primary: 142 86% 65%;
+  --sidebar-primary-foreground: 150 25% 5%;
+  --sidebar-accent: 150 25% 10%;
+  --sidebar-accent-foreground: 120 50% 88%;
+  --sidebar-border: 150 25% 15%;
+  --sidebar-ring: 142 86% 65%;
+  
+  /* Dark mode liquid gradients with better contrast */
+  --gradient-primary: linear-gradient(135deg, hsl(142 86% 55%) 0%, hsl(138 70% 65%) 100%);
+  --gradient-secondary: linear-gradient(135deg, hsl(150 20% 12%) 0%, hsl(150 20% 16%) 100%);
+  --gradient-glass: linear-gradient(135deg, hsla(150, 20%, 8%, 0.9) 0%, hsla(150, 20%, 12%, 0.8) 100%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  /* Liquid Design Components */
+  .liquid-card {
+    background: linear-gradient(135deg, hsl(var(--card) / 0.8), hsl(var(--card) / 0.6));
+    backdrop-filter: blur(12px);
+    border: 1px solid hsl(var(--border) / 0.5);
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 15px -3px hsl(var(--primary) / 0.05), 0 4px 6px -2px hsl(var(--primary) / 0.05);
+  }
+  
+  .liquid-button {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.8));
+    color: hsl(var(--primary-foreground));
+    border-radius: 1rem;
+    box-shadow: 0 10px 15px -3px hsl(var(--primary) / 0.25), 0 4px 6px -2px hsl(var(--primary) / 0.25);
+    backdrop-filter: blur(4px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .liquid-button:hover {
+    box-shadow: 0 20px 25px -5px hsl(var(--primary) / 0.3), 0 10px 10px -5px hsl(var(--primary) / 0.3);
+    transform: scale(1.05);
+  }
+  
+  .liquid-button:active {
+    transform: scale(0.95);
+  }
+  
+  .liquid-input {
+    background: hsl(var(--background) / 0.5);
+    backdrop-filter: blur(4px);
+    border: 1px solid hsl(var(--border) / 0.5);
+    border-radius: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .liquid-input:focus {
+    outline: 2px solid hsl(var(--primary) / 0.5);
+    outline-offset: 2px;
+    border-color: hsl(var(--primary) / 0.5);
+  }
+  
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 1rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+  
+  .liquid-sidebar {
+    background: linear-gradient(180deg, hsl(var(--sidebar) / 0.95), hsl(var(--sidebar) / 0.8));
+    backdrop-filter: blur(12px);
+    border-right: 1px solid hsl(var(--sidebar-border) / 0.5);
+  }
+  
+  .liquid-header {
+    background: linear-gradient(90deg, hsl(var(--background) / 0.95), hsl(var(--card) / 0.8));
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid hsl(var(--border) / 0.5);
+  }
+}
+
+@layer utilities {
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px);
+  }
+  50% { 
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+  }
+  to {
+    box-shadow: 0 0 30px hsl(var(--primary) / 0.6);
+  }
+}
+
+/* Range Input Styling */
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: hsl(var(--primary));
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  background: hsl(var(--primary));
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.slider::-moz-range-thumb {
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: hsl(var(--primary));
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.slider::-moz-range-thumb:hover {
+  background: hsl(var(--primary));
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.slider::-webkit-slider-track {
+  height: 8px;
+  border-radius: 4px;
+}
+
+.slider::-moz-range-track {
+  height: 8px;
+  border-radius: 4px;
+  border: none;
+}
