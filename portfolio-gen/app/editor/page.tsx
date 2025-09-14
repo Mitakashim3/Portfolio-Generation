@@ -4,7 +4,10 @@ import { useState } from "react"
 import { EnhancedSidebar } from "@/components/editor/EnhancedSidebar"
 import { LivePreview } from "@/components/editor/LivePreview"
 import { ThemeSelector } from "@/components/editor/ThemeSelector"
+import { ColorPaletteSelector } from "@/components/editor/ColorPaletteSelector"
 import { ActionButtons } from "@/components/editor/ActionButtons"
+import { UndoRedoProvider } from "@/components/editor/UndoRedoProvider"
+import { UndoRedoControls } from "@/components/editor/UndoRedoControls"
 import Button from "@/components/ui/Button"
 import { Badge } from "@/components/ui/Badge"
 import { Menu, X, Eye, Code, Monitor, Tablet, Smartphone } from "lucide-react"
@@ -100,7 +103,22 @@ export default function EditorPage() {
   }
 
   const handlePreview = () => {
-    window.open('/', '_blank')
+    try {
+      // Save current config to localStorage as fallback
+      localStorage.setItem('portfolio-config', JSON.stringify(config))
+      
+      // Encode config as base64 for URL
+      const encodedConfig = btoa(JSON.stringify(config))
+      const previewUrl = `/preview?config=${encodeURIComponent(encodedConfig)}`
+      
+      // Open preview in new window
+      window.open(previewUrl, '_blank')
+    } catch (error) {
+      console.error('Error opening preview:', error)
+      // Fallback - just save to localStorage and open preview
+      localStorage.setItem('portfolio-config', JSON.stringify(config))
+      window.open('/preview', '_blank')
+    }
   }
 
   const handleGenerate = async () => {
@@ -140,34 +158,31 @@ export default function EditorPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/50">
-      {/* Header */}
-      <header className="liquid-header">
-        <div className="flex h-16 items-center justify-between px-4">
-          <div className="flex items-center gap-4">
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              onClick={() => setSidebarOpen(!sidebarOpen)} 
-              className="lg:hidden rounded-xl hover:bg-primary/10"
-            >
-              {sidebarOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-            </Button>
-            <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              Portfolio Generator
-            </h1>
-          </div>
+    <UndoRedoProvider initialConfig={config} onConfigChange={setConfig}>
+      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/50">
+        {/* Header */}
+        <header className="liquid-header">
+          <div className="flex h-16 items-center justify-between px-4">
+            <div className="flex items-center gap-4">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setSidebarOpen(!sidebarOpen)} 
+                className="lg:hidden rounded-xl hover:bg-primary/10"
+              >
+                {sidebarOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+              </Button>
+              <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                Portfolio Generator
+              </h1>
+            </div>
 
-          {/* Center - Preview Controls */}
-          <div className="flex items-center gap-3 liquid-card px-4 py-2">
-            <Eye className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium">Live Preview</span>
-            <Badge variant="outline" className="text-xs bg-primary/10 text-primary border-primary/20 rounded-full">
-              {config.theme}
-            </Badge>
-          </div>
+            {/* Undo/Redo Controls */}
+            <div className="flex items-center gap-4">
+              <UndoRedoControls />
+            </div>
 
-          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4">
             {/* View Mode Toggle */}
             <div className="flex items-center liquid-card p-1">
               <Button
@@ -234,10 +249,16 @@ export default function EditorPage() {
             </div>
 
             <ThemeSelector
-              selectedTheme={config.theme}
-              onThemeChange={(theme) => setConfig({ ...config, theme })}
               onFeedback={logFeedback}
             />
+            
+            {/* Quick Color Palette Selector */}
+            <div className="liquid-card p-2">
+              <ColorPaletteSelector
+                onFeedback={logFeedback}
+              />
+            </div>
+            
             <ActionButtons 
               config={config}
               onSave={handleSave}
@@ -261,8 +282,6 @@ export default function EditorPage() {
         >
           <div className="flex h-full flex-col">
             <EnhancedSidebar
-              config={config}
-              onConfigChange={setConfig}
               onFeedback={logFeedback}
             />
           </div>
@@ -279,7 +298,6 @@ export default function EditorPage() {
         {/* Main Content */}
         <main className="flex-1 overflow-hidden bg-gradient-to-br from-background/50 to-muted/30">
           <LivePreview 
-            config={config}
             viewMode={viewMode}
             deviceMode={deviceMode}
           />
@@ -299,5 +317,6 @@ export default function EditorPage() {
         </main>
       </div>
     </div>
+    </UndoRedoProvider>
   )
 }
